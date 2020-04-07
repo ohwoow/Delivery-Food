@@ -1,0 +1,106 @@
+html,
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+}
+
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Header */
+.header{
+    padding: 44px 0 40px;
+}
+
+.header__inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header__form {
+    width: 100%;
+    max-width: 690px;
+}
+.header__form-input {
+    width: 100%;
+    background-image: url(../img/house.svg);
+    background-repeat: no-repeat;
+    background-position: left 11px center;
+    display: block;
+    padding: 7px 0 7px 34px;
+
+    border: 1px solid #D9D9D9;
+    border-radius: 2px;
+
+    line-height: 24px;
+    font-size: 16px;
+}
+
+.header__form-input::placeholder {
+    font-family: 'Roboto', sans-serif;
+    color: #BFBFBF;
+}
+
+.header__user-btn {
+    display: inline-block;
+    padding: 8px 16px 8px 36px;
+    margin-right: 6px;
+    line-height: 24px;
+    
+    color: #fff;
+
+    background-color: #1890FF;
+    border-radius: 2px;
+    border: none;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    -ms-border-radius: 2px;
+    -o-border-radius: 2px;
+    transition: background-color 0.2s linear;
+    -webkit-transition: background-color 0.2s linear;
+    -moz-transition: background-color 0.2s linear;
+    -ms-transition: background-color 0.2s linear;
+    -o-transition: background-color 0.2s linear;
+
+    font-size: 15px;
+
+    background-image: url(../img/user.svg);
+    background-repeat: no-repeat;
+    background-position: left 21px center;
+
+    cursor: pointer;
+}
+.header__user-btn:hover {
+    background-color: rgb(17, 116, 209);
+}
+
+.header__user-btn--cart {
+    background-color: transparent;
+    background-image: url(../img/cart.svg);
+    background-repeat: no-repeat;
+    background-position: left 16px center;
+
+    color: #595959;
+
+    border: 1px solid #D9D9D9;
+
+    box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.0015);
+    border-radius: 2px;
+
+    margin-right: 0;
+}
+.header__user-btn--cart:hover {
+    background-color: #D9D9D9;
+}
