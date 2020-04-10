@@ -163,6 +163,42 @@
     .cards__button-price {
         margin-left: auto;
     }
+
+    .modal-dialog {
+        padding: 15px 30px;
+    }
+    .modal-header {
+        margin-bottom: 20px;
+    }
+    .modal__title {
+        font-size: 30px;
+    }
+    .modal__body {
+        margin-bottom: 35px;
+    }
+    .food-row {
+        flex-direction: column;
+    }
+    .food-row__price {
+        margin-left: 0;
+    }
+    .modal__footer {
+        flex-wrap: wrap;
+    }
+    .modal__footer-total-price {
+        margin: 0 auto;
+        margin-bottom: 10px;
+    }
+    .modal__footer-buttons {
+        margin: 0 auto;
+    }
+    .button-modal--order {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+    .button-modal--cancel {
+        width: 100%;
+    }
 }
 
 @media (max-width: 345px) {
