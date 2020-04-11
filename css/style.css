@@ -428,6 +428,9 @@ h1,h2,h3,h4,h5,h6 {
     border-radius: 5px;
     padding: 40px 45px;
 }
+.modal-user__dialog {
+    max-width: 550px;
+}
 .modal-header {
   
     display: flex;
@@ -449,6 +452,7 @@ h1,h2,h3,h4,h5,h6 {
 .modal__body {
    margin-bottom: 52px;
 }
+
 .food-row {
     display: flex;
     justify-content: space-between;
@@ -521,4 +525,72 @@ h1,h2,h3,h4,h5,h6 {
 }
 .button-modal--cancel:hover {
     background-color: #D9D9D9; 
+}
+
+.button-modal--user {
+    padding: 8px 16px 8px 14px;
+}
+
+.modal-user__dialog .modal-header {
+    margin-bottom: 30px;
+}
+
+.modal-form__email {
+    margin-bottom: 20px;
+
+}
+.form-label {
+    display: block;
+    margin-bottom: 15px;
+    cursor: pointer;
+    
+}
+.modal-form__input {
+    animation-name: fadeInUp;
+    animation-fill-mode: linear;
+    position: relative;
+    display: block;
+    width: 100%;
+    max-width: 320px;
+    padding: 5px 10px;
+
+    border: none;
+    border-bottom: 2px solid #302C34;
+
+    transition: border 0.2s linear;
+    -webkit-transition: border 0.2s linear;
+    -moz-transition: border 0.2s linear;
+    -ms-transition: border 0.2s linear;
+    -o-transition: border 0.2s linear;
+}
+
+
+.modal-form__input:focus {
+    outline: none;
+    border-bottom: 2px solid rgb(57, 189, 75);
+
+}
+
+@keyframes fadeInUp {
+
+    0% {
+        transform: translateY(2000px);
+        -webkit-transform: translateY(2000px);
+        -moz-transform: translateY(2000px);
+        -ms-transform: translateY(2000px);
+        -o-transform: translateY(2000px);
+    }
+
+    100% {
+        transform: translateY(0);
+        -webkit-transform: translateY(0);
+        -moz-transform: translateY(0);
+        -ms-transform: translateY(0);
+        -o-transform: translateY(0);
+}
+
+}
+
+.modal-form__password {
+    margin-bottom: 20px;
 }
