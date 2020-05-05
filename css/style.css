@@ -69,10 +69,15 @@ input {
     color: #BFBFBF;
 }
 
+.header__user {
+    display: flex;
+    align-items: center;
+}
+
 .button {
     display: inline-block;
     padding: 8px 16px 8px 36px;
-    margin-right: 6px;
+    margin-right: 10px;
     line-height: 24px;
     
     color: #fff;
@@ -100,10 +105,23 @@ input {
     background-color: rgb(17, 116, 209);
 }
 
+.user-name {
+    display: none;
+    margin-right: 15px;
+    font-weight: bold;
+    font-size: 12px;
+}
+
 .button--user {
     background-image: url(../img/user.svg);
     background-repeat: no-repeat;
     background-position: left 21px center;
+}
+
+.button-out {
+    display: none;
+    padding: 8px 16px 8px 16px;
+    margin-left: 10px;
 }
 
 .button--cart {

@@ -5,10 +5,18 @@ const   body = document.getElementById('body'),
         userButton = document.getElementById('user-button'),
         cartButton = document.getElementById('cart-button'),
         modalCloseUser = document.getElementById('modal-close-user'),
-        modalCloseCart = document.getElementById('modal-close-cart');
+        modalCloseCart = document.getElementById('modal-close-cart'),
+        formLogin = document.getElementById('login-form'),
+        loginInput = document.getElementById('input-email'),
+        passwordInput = document.getElementById('input-pass'),
+        buttonOut = document.querySelector('.button-out'),
+        userName = document.querySelector('.user-name');
 
- 
 
+let login = localStorage.getItem('Delivery-food');
+
+
+// *Functions
 
 function toggleModalUser() {
     modalUser.classList.toggle('active');
@@ -28,29 +36,85 @@ function closeModalUser() {
     body.classList.toggle('no-scroll');    
 }
 
-if (modalCloseCart) {
-    modalCloseCart.addEventListener('click', closeModalCart);
-}
-if (modalCloseUser) {
-    modalCloseUser.addEventListener('click', closeModalUser);
+
+
+
+function authorized() {
+    console.log('Вы вошли в аккаунт');
+
+
+    function logOut() {
+
+        login = null;
+
+        localStorage.removeItem('Delivery-food');
+        
+        buttonOut.style.display = 'none';
+        userName.style.display = 'none';
+        userButton.style.display = 'block';
+
+        buttonOut.removeEventListener('click', logOut);
+        checkAuth();
+
+    }
+
+    userName.textContent = login;
+
+    userButton.style.display = 'none';
+    buttonOut.style.display = 'inline-block';
+    userName.style.display = 'block';
+
+    buttonOut.addEventListener('click', logOut);
 }
 
-if (userButton) {
+function notAuthorized() {
+    console.log('Вы не вошли в аккаунт');
+
+    function logIn(event) {
+        event.preventDefault();
+        login = loginInput.value;
+
+        localStorage.setItem('Delivery-food', login);
+
+        userButton.removeEventListener('click', toggleModalUser);
+        modalCloseUser.removeEventListener('click', closeModalUser);
+        formLogin.removeEventListener('submit', logIn);
+
+        formLogin.reset();
+
+        checkAuth();
+        closeModalUser();
+    }
+
     userButton.addEventListener('click', toggleModalUser);
-
-}
-if (cartButton) {
-    cartButton.addEventListener('click', toggleModalCart);
-
+    modalCloseUser.addEventListener('click', closeModalUser);
+    formLogin.addEventListener('submit', logIn);
 }
 
 
 
 
+function checkAuth() {
+    if (login) {
+        authorized();
+    } else {
+        notAuthorized();
+    }
+}
 
 
 
-    new WOW().init();
+checkAuth();
+
+// Statement 
+
+modalCloseCart.addEventListener('click', closeModalCart);
+
+cartButton.addEventListener('click', toggleModalCart);
+
+
+
+new WOW().init();
 
 
 
