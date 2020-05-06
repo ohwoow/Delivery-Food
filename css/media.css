@@ -7,9 +7,9 @@
     }
     .cards__item {
         flex-basis: 32%;
-        width: 0;
         max-width: none;
     }
+
     .cards__item-img img {
        max-width: 100%;
 

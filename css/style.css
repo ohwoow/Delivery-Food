@@ -156,6 +156,10 @@ input {
     margin-right: 5px;
 }
 
+.hide {
+    display: none !important;
+}
+
 /* promo */
 
 .promo {
@@ -248,6 +252,7 @@ input {
     line-height: 32px;
     margin-left: 59px;
 }
+
 .cards__item {
     width: 100%;
     max-width: 384px;
@@ -266,6 +271,9 @@ input {
     -webkit-box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.75);
     -moz-box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.75);
     box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.75);
+}
+.cards__item-img {
+    cursor: pointer;
 }
 .cards__item-img img {
     width: 384px;
@@ -292,6 +300,8 @@ input {
     color: #000;
     text-decoration: none;
     font-weight: bold;
+
+    cursor: pointer;
 }
 .item__header-link--reg {
     font-weight: 400;
