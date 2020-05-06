@@ -33,8 +33,11 @@ function closeModalCart() {
 }
 function closeModalUser() {
     modalUser.classList.toggle('active');
-    body.classList.toggle('no-scroll');    
+    body.classList.toggle('no-scroll');
+    loginInput.style.borderBottomColor = '';    
 }
+
+
 
 
 
@@ -72,18 +75,22 @@ function notAuthorized() {
 
     function logIn(event) {
         event.preventDefault();
-        login = loginInput.value;
 
-        localStorage.setItem('Delivery-food', login);
-
-        userButton.removeEventListener('click', toggleModalUser);
-        modalCloseUser.removeEventListener('click', closeModalUser);
-        formLogin.removeEventListener('submit', logIn);
-
-        formLogin.reset();
-
-        checkAuth();
-        closeModalUser();
+        if (loginInput.value != 0) {
+            login = loginInput.value;
+            localStorage.setItem('Delivery-food', login);
+    
+            userButton.removeEventListener('click', toggleModalUser);
+            modalCloseUser.removeEventListener('click', closeModalUser);
+            formLogin.removeEventListener('submit', logIn);
+    
+            formLogin.reset();
+    
+            checkAuth();
+            closeModalUser();
+        } else {
+            loginInput.style.borderBottomColor = 'red';
+        }
     }
 
     userButton.addEventListener('click', toggleModalUser);
