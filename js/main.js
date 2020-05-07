@@ -26,6 +26,19 @@ let login = localStorage.getItem('Delivery-food');
 
 // *Functions
 
+
+const getData = async function(url) {
+    const response = await fetch(url);
+
+    if (!response.ok) {
+        throw new Error(`Ошибка по адресу ${url}, статус ошибки ${response.status}`);
+    }
+
+    return await response.json();
+};
+
+
+
 function toggleModalUser() {
     modalUser.classList.toggle('active');
     body.classList.toggle('no-scroll');  
@@ -113,34 +126,36 @@ function checkAuth() {
     }
 }
 
-
-
 checkAuth();
 
 
-function createCardRestaraunts() {
+function createCardRestaraunts(restaraunt) {
+
+    const { image, kitchen, name, price, products, stars, 
+    
+    time_of_delivery: timeOfDelivery } = restaraunt;
     
     const card = `
-        <div class="cards__item wow fadeInLeft" data-wow-delay='0.2s'>                          
+        <div class="cards__item wow fadeInLeft" data-products="${products}"  data-wow-delay='0.2s'>                          
             <div class="cards__item-img">
             <a>  
-                <img src="img/card-image.jpg" alt="Pizza +">
+                <img src="${image}" alt="Pizza +">
             </a>
             </div>
             <div class="cards__item-wrapper">
                 <div class="cards__item-header">
                     <div class="item__header-name">
-                        <a  class="item__header-link">Пицца плюс</a> 
+                        <a  class="item__header-link">${name}</a> 
                     </div>
-                    <span class="item__header-time">50 мин</span>
+                    <span class="item__header-time">${timeOfDelivery} мин.</span>
                 </div>
                 <div class="cards__item-info">
                     <div class="item__info-rating">
                         <img src="img/star.svg" alt="star">
-                        4.5
+                        ${stars}
                     </div>
-                    <div class="item__info-price">От 900 ₽</div>
-                    <div class="item__info-category">Пицца, роллы</div>
+                    <div class="item__info-price">От ${price}</div>
+                    <div class="item__info-category">${kitchen}</div>
                 </div>
             </div>
         </div>
@@ -149,36 +164,39 @@ function createCardRestaraunts() {
     cardsRestaraunts.insertAdjacentHTML('beforeend', card);
 }
 
-createCardRestaraunts();
-createCardRestaraunts();
-createCardRestaraunts();
 
-function createCardGood() {
+function createCardGood(goods) {
+
+    console.log(goods);
+    
+
+    const { description, id, image, name, price } = goods;
+
     const card = document.createElement('div');
     card.className = 'cards__item wow fadeInRight';
     card.insertAdjacentHTML('beforeend', 
     `                        
         <div class="cards__item-img cards__item-img--shop">
         <a href="#">  
-            <img src="img/shop-image-6.png" alt="Pizza +">
+            <img src="${image}" alt="Pizza +">
         </a>
         </div>
         <div class="cards__item-wrapper">
             <div class="cards__item-header">
                 <div class="item__header-name">
-                    <a href="" class="item__header-link item__header-link--reg">Ролл с креветкой стандарт</a> 
+                    <a href="" class="item__header-link item__header-link--reg">${name}</a> 
                 </div>
             </div>
 
             <div class="cards__item-info">
-                <div class="item__info-ingredietns">Рис, водоросли нори, креветки отварные, сыр сливочный, огурцы</div>
+                <div class="item__info-ingredietns">${description}</div>
             </div>
             <div class="cards__button">
                 <button type="button" class="button button-cart--shop">
                     <span class="cards__button-text">В корзину</span>
                     <img src="img/cart-shop.svg" alt="" class="cards__button-img">
                 </button>
-                <div class="cards__button-price">250 ₽</div>
+                <div class="cards__button-price">${price}</div>
             </div>
         </div>
         
@@ -198,26 +216,23 @@ function openGoods(event) {
     
     if (login) {
         if (restaraunt) {
+            cardsMenu.textContent = '';  
+
             cardsRestaraunts.classList.add('hide');
             promo.classList.add('hide');
             itemGoods.classList.remove('hide');
-    
-            cardsMenu.textContent = '';
-    
-            createCardGood();
-            createCardGood();
-            createCardGood();
+
+            getData(`../db/${restaraunt.dataset.products}`).then(function(data) {
+                data.forEach(createCardGood);
+            });
         }
     
     } else {
         toggleModalUser();
-    }
-
-    
-    
-
-   
+    }  
 }
+
+
 
 
 if (headerLogo) {
@@ -230,14 +245,25 @@ if (headerLogo) {
 
 
 
-// Statement 
 
-modalCloseCart.addEventListener('click', closeModalCart);
 
-cartButton.addEventListener('click', toggleModalCart);
+function init() {
+    getData('../db/partners.json').then(function(data) {
+    
+        data.forEach(createCardRestaraunts);
+    
+    });
 
-cardsRestaraunts.addEventListener('click', openGoods);
+    
+    modalCloseCart.addEventListener('click', closeModalCart);
 
+    cartButton.addEventListener('click', toggleModalCart);
+
+    cardsRestaraunts.addEventListener('click', openGoods);
+
+}
+
+init();
 
 
 
