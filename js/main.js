@@ -21,11 +21,16 @@ const   body = document.getElementById('body'),
         restaurantsTitle = document.querySelector('.restaurant__title'),
         infoRating = document.querySelector('.item__info-rating'),
         infoMinPrice = document.querySelector('.item__info-price'),
-        infoCategory = document.querySelector('.item__info-category');
-
+        infoCategory = document.querySelector('.item__info-category'),
+        modalCartBody = document.querySelector('.modal__body'),
+        cartTotalPrice = document.querySelector('.modal__footer-total-price'),
+        buttonClearCart = document.querySelector('.button-modal--cancel');
         
 
 let login = localStorage.getItem('Delivery-food');
+let saveCart = localStorage.getItem('Delivery-cart');
+
+const cart  = [];
 
 
 // *Functions
@@ -73,6 +78,7 @@ function authorized() {
         login = null;
 
         localStorage.removeItem('Delivery-food');
+        localStorage.removeItem('Delivery-cart');
         
         buttonOut.style.display = 'none';
         userName.style.display = 'none';
@@ -174,7 +180,7 @@ function createCardGood(goods) {
     const { description, id, image, name, price } = goods;
 
     const card = document.createElement('div');
-    card.className = 'cards__item wow fadeInRight';
+    card.className = 'cards__item cards__item--goods wow fadeInRight';
     card.insertAdjacentHTML('beforeend', 
     `                        
         <div class="cards__item-img cards__item-img--shop">
@@ -193,7 +199,7 @@ function createCardGood(goods) {
                 <div class="item__info-ingredietns">${description}</div>
             </div>
             <div class="cards__button">
-                <button type="button" class="button button-cart--shop">
+                <button type="button" class="button button-cart--shop" id="${id}">
                     <span class="cards__button-text">В корзину</span>
                     <img src="img/cart-shop.svg" alt="" class="cards__button-img">
                 </button>
@@ -255,8 +261,77 @@ if (headerLogo) {
 }
 
 
+function addToCard(event) {
+    const target = event.target;
 
+    const buttonAddToCard = target.closest('.button-cart--shop');
+    if (buttonAddToCard) {
+        const card = target.closest('.cards__item--goods');
+        const title = card.querySelector('.item__header-link--reg').textContent;
+        const cost = card.querySelector('.cards__button-price').textContent;
+        const id = buttonAddToCard.id;
 
+        const food = cart.find(function (item) {
+           return item.id === id; 
+        });
+
+        if (food) {
+            food.count += 1;
+        } else {
+            cart.push({   
+                id,
+                title,
+                cost,
+                count: 1
+            });
+        }
+    }
+}
+
+function renderCard() {
+    modalCartBody.textContent = '';
+
+    cart.forEach(function({ id, title, cost, count }) {
+        const itemCart = `
+        <div class="food-row">
+            <span class="food-row__name">${title}</span>
+            <strong class="food-row__price" data-id="${id}">${cost}</strong>
+            <div class="food-row__counter">
+                <button class="counter__button counter-minus" data-id="${id}">-</button>
+                <span class="counter__num">${count}</span>
+                <button class="counter__button counter-plus" data-id="${id}">+</button>
+            </div>
+        </div>
+        `;
+
+        modalCartBody.insertAdjacentHTML('afterbegin', itemCart);
+    });
+
+    const totalPrice = cart.reduce(function(result, item) { 
+        return result + (parseFloat(item.cost) * item.count);   
+    }, 0);
+
+    cartTotalPrice.textContent = totalPrice +' ₽';
+}
+
+function changeCount(event) {
+    const target = event.target;
+
+    if (target.classList.contains('counter__button')) {
+        const food = cart.find(function(item) {
+            return item.id === target.dataset.id;
+        });
+        
+        if (target.classList.contains('counter-minus')) {
+            food.count--;
+            if (food.count === 0) {
+                cart.splice(cart.indexOf(food), 1);
+            }
+        };
+        if (target.classList.contains('counter-plus')) food.count++;
+        renderCard(); 
+    }
+}
 
 function init() {
     getData('../db/partners.json').then(function(data) {
@@ -265,18 +340,27 @@ function init() {
     
     });
 
+    buttonClearCart.addEventListener('click', function() {
+        cart.length = 0;
+        renderCard();
+    });
+
+    modalCartBody.addEventListener('click', changeCount);
+
+    cardsMenu.addEventListener('click', addToCard);
     
     modalCloseCart.addEventListener('click', closeModalCart);
 
-    cartButton.addEventListener('click', toggleModalCart);
+    cartButton.addEventListener('click', function() {
+        renderCard();
+        toggleModalCart();
+    });
 
     cardsRestaraunts.addEventListener('click', openGoods);
 
 }
 
 init();
-
-
 
 
 new WOW().init();
