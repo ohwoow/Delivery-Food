@@ -203,7 +203,7 @@ input {
     align-items: center;
     padding-bottom: 44px;
 }
-.restaurants__title {
+.restaurant__title {
     font-weight: bold;
     font-size: 36px;
     line-height: 42px;

@@ -17,7 +17,11 @@ const   body = document.getElementById('body'),
         promo = document.querySelector('.promo'),
         itemGoods = document.querySelector('.item-goods'),
         headerLogo = document.querySelector('.header__logo'),
-        cardsMenu = document.querySelector('.cards-menu');
+        cardsMenu = document.querySelector('.cards-menu'),
+        restaurantsTitle = document.querySelector('.restaurant__title'),
+        infoRating = document.querySelector('.item__info-rating'),
+        infoMinPrice = document.querySelector('.item__info-price'),
+        infoCategory = document.querySelector('.item__info-category');
 
         
 
@@ -136,7 +140,7 @@ function createCardRestaraunts(restaraunt) {
     time_of_delivery: timeOfDelivery } = restaraunt;
     
     const card = `
-        <div class="cards__item wow fadeInLeft" data-products="${products}"  data-wow-delay='0.2s'>                          
+        <div class="cards__item wow fadeInLeft" data-info="${[name, price, stars, kitchen]}"  data-products="${products}"  data-wow-delay='0.2s'>                          
             <div class="cards__item-img">
             <a>  
                 <img src="${image}" alt="Pizza +">
@@ -154,7 +158,7 @@ function createCardRestaraunts(restaraunt) {
                         <img src="img/star.svg" alt="star">
                         ${stars}
                     </div>
-                    <div class="item__info-price">От ${price}</div>
+                    <div class="item__info-price">От ${price}₽</div>
                     <div class="item__info-category">${kitchen}</div>
                 </div>
             </div>
@@ -166,9 +170,6 @@ function createCardRestaraunts(restaraunt) {
 
 
 function createCardGood(goods) {
-
-    console.log(goods);
-    
 
     const { description, id, image, name, price } = goods;
 
@@ -196,7 +197,7 @@ function createCardGood(goods) {
                     <span class="cards__button-text">В корзину</span>
                     <img src="img/cart-shop.svg" alt="" class="cards__button-img">
                 </button>
-                <div class="cards__button-price">${price}</div>
+                <div class="cards__button-price">${price}₽</div>
             </div>
         </div>
         
@@ -216,11 +217,21 @@ function openGoods(event) {
     
     if (login) {
         if (restaraunt) {
+
+            const info = restaraunt.dataset.info.split(',');
+
+            const [name, price, stars, kitchen] = info;            
+
             cardsMenu.textContent = '';  
 
             cardsRestaraunts.classList.add('hide');
             promo.classList.add('hide');
             itemGoods.classList.remove('hide');
+
+            restaurantsTitle.textContent = name;
+            infoRating.textContent = stars;
+            infoMinPrice.textContent = 'От ' + price + '₽';
+            infoCategory.textContent = kitchen;
 
             getData(`../db/${restaraunt.dataset.products}`).then(function(data) {
                 data.forEach(createCardGood);
